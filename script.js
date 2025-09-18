@@ -123,15 +123,16 @@ class PortfolioManager {
     setupKeyboardShortcuts() {
         document.addEventListener('keydown', (e) => {
             // Ctrl/Cmd + Number keys for quick navigation
-            if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '6') {
+            if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '7') {
                 e.preventDefault();
                 const shortcuts = {
-                    '1': 'about',
-                    '2': 'experience',
-                    '3': 'skills',
-                    '4': 'projects',
-                    '5': 'education',
-                    '6': 'contact'
+                    '1': 'overview',
+                    '2': 'about',
+                    '3': 'experience',
+                    '4': 'skills',
+                    '5': 'projects',
+                    '6': 'education',
+                    '7': 'contact'
                 };
                 this.openTab(shortcuts[e.key]);
             }
@@ -188,6 +189,7 @@ class PortfolioManager {
 
     createTabElement(tabName) {
         const tabConfig = {
+            overview: { icon: 'fas fa-file-alt', label: 'overview.md' },
             about: { icon: 'fas fa-user', label: 'about.md' },
             experience: { icon: 'fas fa-briefcase', label: 'experience.md' },
             skills: { icon: 'fas fa-code', label: 'skills.md' },

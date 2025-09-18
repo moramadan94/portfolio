@@ -49,7 +49,11 @@
                     <span>mohamed-ramadan-portfolio</span>
                 </div>
                 <div class="file-list">
-                    <div class="file-item active" data-tab="about">
+                    <div class="file-item active" data-tab="overview">
+                        <i class="fas fa-file-alt file-icon"></i>
+                        <span>overview.md</span>
+                    </div>
+                    <div class="file-item" data-tab="about">
                         <i class="fas fa-user file-icon"></i>
                         <span>about.md</span>
                     </div>
@@ -86,6 +90,128 @@
 
             <!-- Tab Content -->
             <div class="editor-content">
+                <!-- Overview Tab -->
+                <div class="tab-content" id="overview">
+                    <div class="content-header">
+                        <div class="overview-header">
+                            <div class="overview-title">
+                                <h1>Mohamed Ramadan</h1>
+                                <p class="overview-subtitle">Senior Frontend Developer • 7+ Years Experience</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-body">
+                        <div class="overview-stats">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3>7+</h3>
+                                    <p>Years Experience</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3>15+</h3>
+                                    <p>Apps Developed</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <h3>6+</h3>
+                                    <p>Companies</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="overview-content">
+                            <section class="overview-summary">
+                                <h3>Executive Summary</h3>
+                                <p>Senior Frontend Developer with 7+ years of experience specializing in mobile and web application development. Currently contributing to Al Rajhi Bank's retail mobile application serving 2M+ active users. Proven expertise in React Native, Angular, React, and modern JavaScript frameworks with a strong background in fintech and banking applications.</p>
+                            </section>
+
+                            <section class="overview-expertise">
+                                <h3>Core Expertise</h3>
+                                <div class="expertise-grid">
+                                    <div class="expertise-item">
+                                        <i class="fas fa-mobile-alt"></i>
+                                        <h4>Mobile Development</h4>
+                                        <p>React Native, Ionic, cross-platform solutions</p>
+                                    </div>
+                                    <div class="expertise-item">
+                                        <i class="fas fa-globe"></i>
+                                        <h4>Web Development</h4>
+                                        <p>React, Angular, TypeScript, modern web standards</p>
+                                    </div>
+                                    <div class="expertise-item">
+                                        <i class="fas fa-university"></i>
+                                        <h4>Fintech & Banking</h4>
+                                        <p>Payment systems, financial apps, security compliance</p>
+                                    </div>
+                                    <div class="expertise-item">
+                                        <i class="fas fa-rocket"></i>
+                                        <h4>Performance</h4>
+                                        <p>Scalable architecture, optimization, user experience</p>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="overview-recent">
+                                <h3>Recent Highlights</h3>
+                                <ul>
+                                    <li>Currently working on Al Rajhi Bank's retail mobile app with 2M+ users</li>
+                                    <li>Contributed to multiple fintech applications at EMKAN Finance</li>
+                                    <li>Developed Buy Now, Pay Later (BNPL) platform and SME finance solutions</li>
+                                    <li>Built Tahweel Al Rajhi money transfer application</li>
+                                    <li>Experience with large-scale applications and monorepo architectures</li>
+                                </ul>
+                            </section>
+
+                            <section class="overview-navigation">
+                                <h3>Explore My Portfolio</h3>
+                                <div class="navigation-grid">
+                                    <button class="nav-card" onclick="portfolioManager.openTab('about')">
+                                        <i class="fas fa-user"></i>
+                                        <div>
+                                            <h4>About Me</h4>
+                                            <p>Professional background and current role</p>
+                                        </div>
+                                    </button>
+                                    <button class="nav-card" onclick="portfolioManager.openTab('experience')">
+                                        <i class="fas fa-briefcase"></i>
+                                        <div>
+                                            <h4>Experience</h4>
+                                            <p>Detailed work history and achievements</p>
+                                        </div>
+                                    </button>
+                                    <button class="nav-card" onclick="portfolioManager.openTab('skills')">
+                                        <i class="fas fa-code"></i>
+                                        <div>
+                                            <h4>Skills</h4>
+                                            <p>Technical skills and technologies</p>
+                                        </div>
+                                    </button>
+                                    <button class="nav-card" onclick="portfolioManager.openTab('projects')">
+                                        <i class="fas fa-folder-open"></i>
+                                        <div>
+                                            <h4>Projects</h4>
+                                            <p>Key projects and applications</p>
+                                        </div>
+                                    </button>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Welcome Page -->
                 <div class="tab-content" id="welcome">
                     <div class="welcome-container">
