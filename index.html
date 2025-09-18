@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohamed Ramadan - Frontend Developer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEwIDJMMTMgOUwxMCAyMlYxNkg2VjEwSDRMTCAxMFoiIGZpbGw9IiMwMDdhY2MiLz4KPC9zdmc+">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-controls">
+                    <span class="control close"></span>
+                    <span class="control minimize"></span>
+                    <span class="control maximize"></span>
+                </div>
+                <div class="terminal-title">Terminal - mohamed-ramadan-portfolio</div>
+            </div>
+            <div class="terminal-body">
+                <div class="terminal-line">
+                    <span class="prompt">$ </span>
+                    <span class="command" id="loadingCommand"></span>
+                    <span class="cursor">|</span>
+                </div>
+                <div class="terminal-output" id="terminalOutput"></div>
+                <div class="loading-progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="vscode-container" id="mainContainer" style="display: none;">
+        <!-- File Explorer Sidebar -->
+        <div class="sidebar">
+            <div class="explorer-header">
+                <div class="explorer-title">
+                    <i class="fas fa-folder-open"></i>
+                    <span>EXPLORER</span>
+                </div>
+            </div>
+            <div class="file-tree">
+                <div class="folder-item">
+                    <img src="mo.png" alt="Mohamed Ramadan" class="folder-avatar">
+                    <span>mohamed-ramadan-portfolio</span>
+                </div>
+                <div class="file-list">
+                    <div class="file-item active" data-tab="about">
+                        <i class="fas fa-user file-icon"></i>
+                        <span>about.md</span>
+                    </div>
+                    <div class="file-item" data-tab="experience">
+                        <i class="fas fa-briefcase file-icon"></i>
+                        <span>experience.md</span>
+                    </div>
+                    <div class="file-item" data-tab="skills">
+                        <i class="fas fa-code file-icon"></i>
+                        <span>skills.md</span>
+                    </div>
+                    <div class="file-item" data-tab="projects">
+                        <i class="fas fa-folder-open file-icon"></i>
+                        <span>projects.md</span>
+                    </div>
+                    <div class="file-item" data-tab="education">
+                        <i class="fas fa-graduation-cap file-icon"></i>
+                        <span>education.md</span>
+                    </div>
+                    <div class="file-item" data-tab="contact">
+                        <i class="fas fa-envelope file-icon"></i>
+                        <span>contact.md</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Tab Bar -->
+            <div class="tab-bar" id="tabBar">
+                <!-- Tabs will be dynamically added here -->
+            </div>
+
+            <!-- Tab Content -->
+            <div class="editor-content">
+                <!-- Welcome Page -->
+                <div class="tab-content" id="welcome">
+                    <div class="welcome-container">
+                        <div class="welcome-header">
+                            <div class="welcome-logo">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h1>Welcome to Mohamed Ramadan's Portfolio</h1>
+                            <p class="welcome-subtitle">Senior Frontend Developer • 7+ Years Experience</p>
+                        </div>
+
+                        <div class="welcome-content">
+                            <div class="welcome-section">
+                                <h3>Getting Started</h3>
+                                <p>Explore my professional journey by selecting any file from the explorer on the left:</p>
+                                <div class="quick-actions">
+                                    <button class="welcome-btn" onclick="portfolioManager.openTab('about')">
+                                        <i class="fas fa-user"></i>
+                                        <span>About Me</span>
+                                    </button>
+                                    <button class="welcome-btn" onclick="portfolioManager.openTab('experience')">
+                                        <i class="fas fa-briefcase"></i>
+                                        <span>Work Experience</span>
+                                    </button>
+                                    <button class="welcome-btn" onclick="portfolioManager.openTab('projects')">
+                                        <i class="fas fa-folder-open"></i>
+                                        <span>Key Projects</span>
+                                    </button>
+                                    <button class="welcome-btn" onclick="portfolioManager.openTab('contact')">
+                                        <i class="fas fa-envelope"></i>
+                                        <span>Contact Info</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="welcome-section">
+                                <h3>Keyboard Shortcuts</h3>
+                                <div class="shortcuts-grid">
+                                    <div class="shortcut-item">
+                                        <kbd>Ctrl/Cmd + 1</kbd>
+                                        <span>Open About</span>
+                                    </div>
+                                    <div class="shortcut-item">
+                                        <kbd>Ctrl/Cmd + 2</kbd>
+                                        <span>Open Experience</span>
+                                    </div>
+                                    <div class="shortcut-item">
+                                        <kbd>Ctrl/Cmd + 3</kbd>
+                                        <span>Open Skills</span>
+                                    </div>
+                                    <div class="shortcut-item">
+                                        <kbd>Ctrl/Cmd + 4</kbd>
+                                        <span>Open Projects</span>
+                                    </div>
+                                    <div class="shortcut-item">
+                                        <kbd>Ctrl/Cmd + 5</kbd>
+                                        <span>Open Education</span>
+                                    </div>
+                                    <div class="shortcut-item">
+                                        <kbd>Ctrl/Cmd + 6</kbd>
+                                        <span>Open Contact</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="welcome-section">
+                                <h3>Quick Facts</h3>
+                                <div class="facts-grid">
+                                    <div class="fact-item">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <div>
+                                            <strong>7+ Years</strong>
+                                            <span>Frontend Development</span>
+                                        </div>
+                                    </div>
+                                    <div class="fact-item">
+                                        <i class="fas fa-users"></i>
+                                        <div>
+                                            <strong>2M+ Users</strong>
+                                            <span>Current App Reach</span>
+                                        </div>
+                                    </div>
+                                    <div class="fact-item">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <div>
+                                            <strong>Riyadh, KSA</strong>
+                                            <span>Current Location</span>
+                                        </div>
+                                    </div>
+                                    <div class="fact-item">
+                                        <i class="fas fa-building"></i>
+                                        <div>
+                                            <strong>Al Rajhi Bank</strong>
+                                            <span>Current Company</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About Tab -->
+                <div class="tab-content" id="about">
+                    <div class="content-header">
+                        <div class="profile-section">
+                            <div class="profile-image">
+                                <img src="mo.png" alt="Mohamed Ramadan" class="profile-photo">
+                            </div>
+                            <div class="profile-info">
+                                <h1>Mohamed Ramadan</h1>
+                                <h2>Senior Frontend Developer</h2>
+                                <p class="location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Riyadh, Saudi Arabia
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-body">
+                        <section class="summary">
+                            <h3>Professional Summary</h3>
+                            <p>Frontend Developer with 7+ years of experience, who uses the latest standards and technologies to build interactive, high performance and scalable web and mobile apps while writing efficient and readable code.</p>
+                        </section>
+
+                        <section class="highlights">
+                            <h3>Key Highlights</h3>
+                            <ul>
+                                <li>7+ years of frontend development experience across mobile and web platforms</li>
+                                <li>Currently contributing to Al Rajhi Bank's retail mobile application serving 2M+ active users</li>
+                                <li>Extensive experience with React Native, Angular, React, and Ionic frameworks</li>
+                                <li>Proven track record in fintech and banking applications development</li>
+                                <li>Strong expertise in modern JavaScript, TypeScript, and emerging AI technologies</li>
+                                <li>Experience working with large-scale applications and monorepo architectures</li>
+                            </ul>
+                        </section>
+
+                        <section class="current-role">
+                            <h3>Current Position</h3>
+                            <div class="role-card">
+                                <h4>Senior Frontend Developer - Al Rajhi Bank</h4>
+                                <p class="duration">November 2024 - Present</p>
+                                <ul>
+                                    <li>Contributing to Al Rajhi Bank's retail mobile application serving 2M+ active users</li>
+                                    <li>Working as part of the Finance, Transfer, and Payments team</li>
+                                    <li>Contributing to the development of the Al Rajhi Foundation library</li>
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <!-- Experience Tab -->
+                <div class="tab-content" id="experience">
+                    <div class="content-header">
+                        <h1>Work Experience</h1>
+                    </div>
+                    <div class="content-body">
+                        <div class="experience-timeline">
+                            <div class="experience-item">
+                                <div class="experience-period">Nov 2024 - Present</div>
+                                <div class="experience-details">
+                                    <h3>Senior Frontend Developer</h3>
+                                    <h4>Al Rajhi Bank - Riyadh, Saudi Arabia</h4>
+                                    <ul>
+                                        <li>Contributing to Al Rajhi Bank's retail mobile application serving 2M+ active users</li>
+                                        <li>Working as part of the Finance, Transfer, and Payments team</li>
+                                        <li>Contributing to the development of the Al Rajhi Foundation library</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="experience-item">
+                                <div class="experience-period">Jan 2022 - Sep 2024</div>
+                                <div class="experience-details">
+                                    <h3>Senior Frontend Developer (Mobile, Web)</h3>
+                                    <h4>EMKAN | إمكان - Riyadh, Saudi Arabia</h4>
+                                    <ul>
+                                        <li>Contributed to developing the Emkan Finance app</li>
+                                        <li>Developed the Retail Finance Web App</li>
+                                        <li>Built the Small and medium-sized enterprises (SME) Web App</li>
+                                        <li>Created the Merchant Portal Web App</li>
+                                        <li>Developed the one-portal Web App</li>
+                                        <li>Built the Buy Now, Pay Later (BNPL) Web App</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="experience-item">
+                                <div class="experience-period">May 2019 - Dec 2021</div>
+                                <div class="experience-details">
+                                    <h3>Frontend Developer (Mobile, Web)</h3>
+                                    <h4>Al Rajhi Bank - Riyadh, Saudi Arabia</h4>
+                                    <ul>
+                                        <li>Contributed to developing the old Al Rajhi Bank mobile app</li>
+                                        <li>Developed the Tahweel Al Rajhi mobile app</li>
+                                        <li>Built the new Al Rajhi Bank mobile app</li>
+                                        <li>Created the new Almubasher Retail Web App using Angular</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="experience-item">
+                                <div class="experience-period">Oct 2018 - Apr 2019</div>
+                                <div class="experience-details">
+                                    <h3>Mobile Applications Developer</h3>
+                                    <h4>Advanced Operation Technology (AOT) - Cairo, Egypt</h4>
+                                    <ul>
+                                        <li>Developed the ECZA mobile app</li>
+                                        <li>Built the GEA mobile app</li>
+                                        <li>Contributed to developing the Quassim mobile app</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="experience-item">
+                                <div class="experience-period">Jan 2018 - Sep 2018</div>
+                                <div class="experience-details">
+                                    <h3>Mobile Applications Developer</h3>
+                                    <h4>Be4em - Cairo, Egypt</h4>
+                                    <ul>
+                                        <li>Developed Rosto mobile app</li>
+                                        <li>Built Defileh mobile app</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="experience-item">
+                                <div class="experience-period">Oct 2016 - Nov 2017</div>
+                                <div class="experience-details">
+                                    <h3>Mobile Applications Developer</h3>
+                                    <h4>Over Coffee Solutions - Cairo, Egypt</h4>
+                                    <ul>
+                                        <li>Developed Suneyya mobile app</li>
+                                        <li>Built Wajbaty mobile app</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills Tab -->
+                <div class="tab-content" id="skills">
+                    <div class="content-header">
+                        <h1>Technical Skills</h1>
+                    </div>
+                    <div class="content-body">
+                        <div class="skills-grid">
+                            <div class="skill-category">
+                                <h3>Mobile Development</h3>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">React Native</span>
+                                    <span class="skill-tag">Ionic</span>
+                                </div>
+                            </div>
+
+                            <div class="skill-category">
+                                <h3>Programming Languages</h3>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">JavaScript</span>
+                                    <span class="skill-tag">TypeScript</span>
+                                    <span class="skill-tag">Python</span>
+                                </div>
+                            </div>
+
+                            <div class="skill-category">
+                                <h3>Frontend Technologies</h3>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">React</span>
+                                    <span class="skill-tag">Angular</span>
+                                    <span class="skill-tag">HTML</span>
+                                    <span class="skill-tag">CSS</span>
+                                    <span class="skill-tag">React Hook</span>
+                                </div>
+                            </div>
+
+                            <div class="skill-category">
+                                <h3>Styling & Design</h3>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Tailwind CSS</span>
+                                    <span class="skill-tag">SASS</span>
+                                </div>
+                            </div>
+
+                            <div class="skill-category">
+                                <h3>State Management & Architecture</h3>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Redux</span>
+                                    <span class="skill-tag">Redux Toolkit</span>
+                                    <span class="skill-tag">Monorepo</span>
+                                </div>
+                            </div>
+
+                            <div class="skill-category">
+                                <h3>Version Control</h3>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Git</span>
+                                </div>
+                            </div>
+
+                            <div class="skill-category">
+                                <h3>AI & Emerging Technologies</h3>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Pandas</span>
+                                    <span class="skill-tag">NumPy</span>
+                                    <span class="skill-tag">Claude Code</span>
+                                    <span class="skill-tag">Cursor AI Agents</span>
+                                    <span class="skill-tag">ChatGPT</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects Tab -->
+                <div class="tab-content" id="projects">
+                    <div class="content-header">
+                        <h1>Key Projects</h1>
+                    </div>
+                    <div class="content-body">
+                        <div class="projects-grid">
+                            <div class="project-card">
+                                <h3>Al Rajhi Bank Mobile App</h3>
+                                <p class="project-type">Banking • Mobile App</p>
+                                <p>Retail mobile application serving 2M+ active users with comprehensive banking features including finance, transfers, and payments.</p>
+                                <div class="tech-stack">
+                                    <span class="tech-tag">React Native</span>
+                                    <span class="tech-tag">JavaScript</span>
+                                    <span class="tech-tag">Redux</span>
+                                </div>
+                            </div>
+
+                            <div class="project-card">
+                                <h3>Emkan Finance App</h3>
+                                <p class="project-type">Finance • Mobile App</p>
+                                <p>Comprehensive finance application providing lending and financial services to users with modern UI/UX.</p>
+                                <div class="tech-stack">
+                                    <span class="tech-tag">React Native</span>
+                                    <span class="tech-tag">TypeScript</span>
+                                </div>
+                            </div>
+
+                            <div class="project-card">
+                                <h3>Buy Now, Pay Later (BNPL) Web App</h3>
+                                <p class="project-type">Finance • Web App</p>
+                                <p>Modern BNPL platform enabling users to make purchases with flexible payment options and merchant integration.</p>
+                                <div class="tech-stack">
+                                    <span class="tech-tag">React</span>
+                                    <span class="tech-tag">TypeScript</span>
+                                    <span class="tech-tag">Tailwind CSS</span>
+                                </div>
+                            </div>
+
+                            <div class="project-card">
+                                <h3>SME Finance Web App</h3>
+                                <p class="project-type">Finance • Web App</p>
+                                <p>Small and medium-sized enterprises finance platform providing business loans and financial services.</p>
+                                <div class="tech-stack">
+                                    <span class="tech-tag">Angular</span>
+                                    <span class="tech-tag">TypeScript</span>
+                                    <span class="tech-tag">SASS</span>
+                                </div>
+                            </div>
+
+                            <div class="project-card">
+                                <h3>Tahweel Al Rajhi App</h3>
+                                <p class="project-type">Banking • Mobile App</p>
+                                <p>Money transfer application enabling secure and fast international and domestic money transfers.</p>
+                                <div class="tech-stack">
+                                    <span class="tech-tag">Ionic</span>
+                                    <span class="tech-tag">Angular</span>
+                                    <span class="tech-tag">TypeScript</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Education Tab -->
+                <div class="tab-content" id="education">
+                    <div class="content-header">
+                        <h1>Education & Certifications</h1>
+                    </div>
+                    <div class="content-body">
+                        <div class="education-timeline">
+                            <div class="education-item">
+                                <div class="education-period">April 2020</div>
+                                <div class="education-details">
+                                    <h3>React Nano-degree Program</h3>
+                                    <h4>Udacity Online</h4>
+                                    <p>Comprehensive program covering React fundamentals, state management, and modern development practices.</p>
+                                </div>
+                            </div>
+
+                            <div class="education-item">
+                                <div class="education-period">2012 - 2016</div>
+                                <div class="education-details">
+                                    <h3>Bachelor Degree in Information Technology</h3>
+                                    <h4>Assiut University - Assiut, Egypt</h4>
+                                    <p>Comprehensive study of information technology fundamentals, programming, and software development.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="languages-section">
+                            <h3>Languages</h3>
+                            <div class="language-skills">
+                                <div class="language-item">
+                                    <span class="language-name">Arabic</span>
+                                    <div class="language-level">
+                                        <div class="level-indicator native"></div>
+                                        <span>Native</span>
+                                    </div>
+                                </div>
+                                <div class="language-item">
+                                    <span class="language-name">English</span>
+                                    <div class="language-level">
+                                        <div class="level-indicator professional"></div>
+                                        <span>Professional</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Tab -->
+                <div class="tab-content" id="contact">
+                    <div class="content-header">
+                        <h1>Contact Information</h1>
+                    </div>
+                    <div class="content-body">
+                        <div class="contact-grid">
+                            <div class="contact-card">
+                                <div class="contact-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="contact-info">
+                                    <h3>Email</h3>
+                                    <p>mo.ramadan.be4em@gmail.com</p>
+                                </div>
+                                <div class="contact-actions">
+                                    <button class="contact-btn primary" onclick="window.open('mailto:mo.ramadan.be4em@gmail.com')">
+                                        <i class="fas fa-paper-plane"></i>
+                                        Send Email
+                                    </button>
+                                    <button class="contact-btn secondary" onclick="copyToClipboard('mo.ramadan.be4em@gmail.com')">
+                                        <i class="fas fa-copy"></i>
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="contact-card">
+                                <div class="contact-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="contact-info">
+                                    <h3>Phone (Saudi Arabia)</h3>
+                                    <p>+966 53 413 0024</p>
+                                </div>
+                                <div class="contact-actions">
+                                    <button class="contact-btn primary" onclick="window.open('tel:+966534130024')">
+                                        <i class="fas fa-phone"></i>
+                                        Call
+                                    </button>
+                                    <button class="contact-btn secondary" onclick="copyToClipboard('+966 53 413 0024')">
+                                        <i class="fas fa-copy"></i>
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="contact-card">
+                                <div class="contact-icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="contact-info">
+                                    <h3>Phone (Egypt)</h3>
+                                    <p>+201120408191</p>
+                                </div>
+                                <div class="contact-actions">
+                                    <button class="contact-btn primary" onclick="window.open('tel:+201120408191')">
+                                        <i class="fas fa-phone"></i>
+                                        Call
+                                    </button>
+                                    <button class="contact-btn secondary" onclick="copyToClipboard('+201120408191')">
+                                        <i class="fas fa-copy"></i>
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="contact-card">
+                                <div class="contact-icon">
+                                    <i class="fab fa-linkedin"></i>
+                                </div>
+                                <div class="contact-info">
+                                    <h3>LinkedIn</h3>
+                                    <p>@MohamedRamadan</p>
+                                </div>
+                                <div class="contact-actions">
+                                    <button class="contact-btn primary" onclick="window.open('https://linkedin.com/in/MohamedRamadan', '_blank')">
+                                        <i class="fas fa-external-link-alt"></i>
+                                        Visit Profile
+                                    </button>
+                                    <button class="contact-btn secondary" onclick="copyToClipboard('https://linkedin.com/in/MohamedRamadan')">
+                                        <i class="fas fa-copy"></i>
+                                        Copy Link
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="contact-card">
+                                <div class="contact-icon">
+                                    <i class="fab fa-github"></i>
+                                </div>
+                                <div class="contact-info">
+                                    <h3>GitHub</h3>
+                                    <p>@MoRamadan</p>
+                                </div>
+                                <div class="contact-actions">
+                                    <button class="contact-btn primary" onclick="window.open('https://github.com/MoRamadan', '_blank')">
+                                        <i class="fas fa-external-link-alt"></i>
+                                        View Repositories
+                                    </button>
+                                    <button class="contact-btn secondary" onclick="copyToClipboard('https://github.com/MoRamadan')">
+                                        <i class="fas fa-copy"></i>
+                                        Copy Link
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="contact-card">
+                                <div class="contact-icon">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div class="contact-info">
+                                    <h3>Location</h3>
+                                    <p>Riyadh, Saudi Arabia</p>
+                                </div>
+                                <div class="contact-actions">
+                                    <button class="contact-btn primary" onclick="window.open('https://maps.google.com/?q=Riyadh,Saudi+Arabia', '_blank')">
+                                        <i class="fas fa-map"></i>
+                                        View on Map
+                                    </button>
+                                    <button class="contact-btn secondary" onclick="copyToClipboard('Riyadh, Saudi Arabia')">
+                                        <i class="fas fa-copy"></i>
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="availability-section">
+                            <h3>Availability</h3>
+                            <div class="availability-card">
+                                <div class="status-indicator available"></div>
+                                <div class="availability-info">
+                                    <h4>Open to Opportunities</h4>
+                                    <p>Currently available for senior frontend developer positions in Saudi Arabia. Interested in challenging projects involving React Native, React, and modern web technologies.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
