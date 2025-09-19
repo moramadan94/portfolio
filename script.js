@@ -116,8 +116,150 @@ class PortfolioManager {
             });
         });
 
+        // Contact buttons functionality
+        this.setupContactButtons();
+
         // Mobile responsive behavior
         this.setupMobileNavigation();
+    }
+
+    setupContactButtons() {
+        console.log('Setting up contact buttons...');
+
+        // Remove inline onclick handlers and add proper event listeners
+        document.addEventListener('click', (e) => {
+            const button = e.target.closest('.contact-btn');
+            if (!button) return;
+
+            console.log('Contact button clicked:', button);
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            const isPrimary = button.classList.contains('primary');
+            const isSecondary = button.classList.contains('secondary');
+            const card = button.closest('.contact-card');
+
+            console.log('Button type:', { isPrimary, isSecondary });
+
+            if (!card) {
+                console.error('No contact card found');
+                return;
+            }
+
+            // Get contact type from the card
+            const contactInfo = card.querySelector('.contact-info h3')?.textContent;
+            const contactValue = card.querySelector('.contact-info p')?.textContent;
+
+            console.log('Contact info:', { contactInfo, contactValue });
+
+            if (isPrimary) {
+                this.handlePrimaryContactAction(contactInfo, contactValue);
+            } else if (isSecondary) {
+                this.handleSecondaryContactAction(contactInfo, contactValue);
+            }
+        });
+
+        // Also add direct event listeners to existing buttons
+        setTimeout(() => {
+            const contactButtons = document.querySelectorAll('.contact-btn');
+            console.log('Found contact buttons:', contactButtons.length);
+
+            contactButtons.forEach((button, index) => {
+                console.log(`Button ${index}:`, button.textContent.trim());
+
+                button.addEventListener('click', (e) => {
+                    console.log('Direct button click:', button);
+                    // The event delegation above should handle this, but adding as backup
+                });
+            });
+        }, 1000);
+    }
+
+    handlePrimaryContactAction(contactType, contactValue) {
+        switch(contactType) {
+            case 'Email':
+                this.openEmailClient(contactValue);
+                break;
+            case 'Phone (Saudi Arabia)':
+            case 'Phone (Egypt)':
+                this.makePhoneCall(contactValue);
+                break;
+            case 'LinkedIn':
+                this.openLinkedInProfile();
+                break;
+            case 'GitHub':
+                this.openGitHubProfile();
+                break;
+            case 'Location':
+                this.openLocationMap();
+                break;
+        }
+    }
+
+    handleSecondaryContactAction(contactType, contactValue) {
+        // All secondary buttons are copy actions
+        switch(contactType) {
+            case 'LinkedIn':
+                window.copyToClipboard('https://linkedin.com/in/mohamed-ramadan-b214a9136');
+                break;
+            case 'GitHub':
+                window.copyToClipboard('https://github.com/moramadan94');
+                break;
+            case 'Location':
+                window.copyToClipboard('Riyadh, Saudi Arabia');
+                break;
+            default:
+                window.copyToClipboard(contactValue);
+        }
+    }
+
+    openEmailClient(email) {
+        try {
+            const mailtoUrl = `mailto:${email}`;
+            window.open(mailtoUrl);
+            this.showNotification('Opening email client...', 'info');
+        } catch (error) {
+            this.showNotification('Failed to open email client', 'error');
+        }
+    }
+
+    makePhoneCall(phoneNumber) {
+        try {
+            const telUrl = `tel:${phoneNumber.replace(/\s/g, '')}`;
+            window.open(telUrl);
+            this.showNotification('Initiating call...', 'info');
+        } catch (error) {
+            this.showNotification('Failed to initiate call', 'error');
+        }
+    }
+
+    openLinkedInProfile() {
+        this.openExternalLink('https://linkedin.com/in/mohamed-ramadan-b214a9136', 'LinkedIn Profile');
+    }
+
+    openGitHubProfile() {
+        this.openExternalLink('https://github.com/moramadan94', 'GitHub Profile');
+    }
+
+    openLocationMap() {
+        this.openExternalLink('https://maps.google.com/?q=Riyadh,Saudi+Arabia', 'Location Map');
+    }
+
+    openExternalLink(url, description = '') {
+        try {
+            const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+            if (!newWindow) {
+                // Popup blocked
+                this.showNotification('Please allow popups to open external links', 'warning');
+                // Fallback: try to navigate in same tab
+                window.location.href = url;
+            } else if (description) {
+                this.showNotification(`Opening ${description}...`, 'info');
+            }
+        } catch (error) {
+            this.showNotification('Failed to open link', 'error');
+        }
     }
 
     setupKeyboardShortcuts() {
@@ -502,26 +644,69 @@ class PortfolioManager {
     }
 }
 
-// Contact functionality
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-        // Show success notification
-        if (window.portfolioManager) {
-            window.portfolioManager.showNotification(`Copied "${text}" to clipboard`, 'success');
-        }
-    }).catch(() => {
-        // Fallback for older browsers
-        const textArea = document.createElement('textarea');
-        textArea.value = text;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
+// Contact functionality - Make globally available
+window.copyToClipboard = function(text) {
+    // Check if clipboard API is available
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+            // Show success notification
+            if (window.portfolioManager) {
+                window.portfolioManager.showNotification(`Copied "${text}" to clipboard`, 'success');
+            }
+        }).catch(() => {
+            fallbackCopyToClipboard(text);
+        });
+    } else {
+        fallbackCopyToClipboard(text);
+    }
+}
 
-        if (window.portfolioManager) {
+function fallbackCopyToClipboard(text) {
+    // Fallback for older browsers or non-secure contexts
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+        const successful = document.execCommand('copy');
+        if (successful && window.portfolioManager) {
             window.portfolioManager.showNotification(`Copied "${text}" to clipboard`, 'success');
+        } else if (window.portfolioManager) {
+            window.portfolioManager.showNotification('Failed to copy to clipboard', 'error');
         }
-    });
+    } catch (err) {
+        if (window.portfolioManager) {
+            window.portfolioManager.showNotification('Copy not supported in this browser', 'warning');
+        }
+    }
+
+    document.body.removeChild(textArea);
+}
+
+// Enhanced link opening functionality
+function openExternalLink(url, description = '') {
+    try {
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+        if (!newWindow) {
+            // Popup blocked
+            if (window.portfolioManager) {
+                window.portfolioManager.showNotification('Please allow popups to open external links', 'warning');
+            }
+            // Fallback: try to navigate in same tab
+            window.location.href = url;
+        } else if (window.portfolioManager && description) {
+            window.portfolioManager.showNotification(`Opening ${description}...`, 'info');
+        }
+    } catch (error) {
+        if (window.portfolioManager) {
+            window.portfolioManager.showNotification('Failed to open link', 'error');
+        }
+    }
 }
 
 // Smooth scroll behavior for internal links
@@ -549,8 +734,146 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Initialize tooltips or other UI enhancements
         initializeUIEnhancements();
+
+        // Add immediate contact button functionality as backup
+        initializeContactButtons();
     }, 1000);
 });
+
+// Immediate contact button setup
+function initializeContactButtons() {
+    console.log('Initializing immediate contact buttons...');
+
+    // Wait for content to be fully loaded
+    setTimeout(() => {
+        const contactButtons = document.querySelectorAll('.contact-btn');
+        console.log('Setting up', contactButtons.length, 'contact buttons');
+
+        contactButtons.forEach((button) => {
+            // Remove any existing listeners
+            button.replaceWith(button.cloneNode(true));
+        });
+
+        // Re-query after cloning
+        document.querySelectorAll('.contact-btn').forEach((button) => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                console.log('Button clicked:', button.textContent.trim());
+
+                const card = button.closest('.contact-card');
+                if (!card) return;
+
+                const contactType = card.querySelector('.contact-info h3')?.textContent;
+                const contactValue = card.querySelector('.contact-info p')?.textContent;
+                const isPrimary = button.classList.contains('primary');
+
+                console.log('Contact action:', { contactType, contactValue, isPrimary });
+
+                if (isPrimary) {
+                    handlePrimaryAction(contactType, contactValue);
+                } else {
+                    handleSecondaryAction(contactType, contactValue);
+                }
+            });
+        });
+    }, 2000);
+}
+
+function handlePrimaryAction(contactType, contactValue) {
+    console.log('Primary action:', contactType, contactValue);
+
+    switch(contactType) {
+        case 'Email':
+            window.open(`mailto:${contactValue}`);
+            showQuickNotification('Opening email client...');
+            break;
+        case 'Phone (Saudi Arabia)':
+        case 'Phone (Egypt)':
+            window.open(`tel:${contactValue.replace(/\s/g, '')}`);
+            showQuickNotification('Initiating call...');
+            break;
+        case 'LinkedIn':
+            window.open('https://linkedin.com/in/mohamed-ramadan-b214a9136', '_blank');
+            showQuickNotification('Opening LinkedIn...');
+            break;
+        case 'GitHub':
+            window.open('https://github.com/moramadan94', '_blank');
+            showQuickNotification('Opening GitHub...');
+            break;
+        case 'Location':
+            window.open('https://maps.google.com/?q=Riyadh,Saudi+Arabia', '_blank');
+            showQuickNotification('Opening map...');
+            break;
+    }
+}
+
+function handleSecondaryAction(contactType, contactValue) {
+    console.log('Secondary action:', contactType, contactValue);
+
+    let textToCopy = contactValue;
+
+    switch(contactType) {
+        case 'LinkedIn':
+            textToCopy = 'https://linkedin.com/in/mohamed-ramadan-b214a9136';
+            break;
+        case 'GitHub':
+            textToCopy = 'https://github.com/moramadan94';
+            break;
+        case 'Location':
+            textToCopy = 'Riyadh, Saudi Arabia';
+            break;
+    }
+
+    // Simple copy to clipboard
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+            showQuickNotification(`Copied: ${textToCopy}`);
+        }).catch(() => {
+            fallbackCopy(textToCopy);
+        });
+    } else {
+        fallbackCopy(textToCopy);
+    }
+}
+
+function fallbackCopy(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-9999px';
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+    showQuickNotification(`Copied: ${text}`);
+}
+
+function showQuickNotification(message) {
+    console.log('Notification:', message);
+
+    // Create a simple notification
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: var(--accent-blue);
+        color: white;
+        padding: 12px 16px;
+        border-radius: 4px;
+        z-index: 9999;
+        animation: slideIn 0.3s ease;
+    `;
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
 
 function initializeUIEnhancements() {
     // Add hover effects for interactive elements
