@@ -125,6 +125,7 @@ body {
     height: 100vh;
     margin: 0;
     padding: 0;
+    padding-bottom: env(safe-area-inset-bottom);
     -webkit-overflow-scrolling: touch;
 }
 
@@ -1352,7 +1353,7 @@ section li::before {
     }
 
     .tab-content {
-        padding: 16px;
+        padding: 16px 16px 50px 16px;
         margin: 8px;
         max-width: calc(100% - 16px);
         width: calc(100% - 16px);
@@ -1439,7 +1440,7 @@ section li::before {
     }
 
     .tab-content {
-        padding: 12px;
+        padding: 12px 12px 60px 12px;
         margin: 6px;
     }
 
@@ -1693,8 +1694,9 @@ section li::before {
     .tab-content {
         scroll-snap-align: start;
         overflow-y: auto;
-        max-height: calc(100vh - 120px);
+        max-height: calc(100vh - 80px - env(safe-area-inset-bottom));
         scroll-padding: 20px;
+        padding-bottom: max(40px, env(safe-area-inset-bottom));
         overscroll-behavior: contain;
     }
 
