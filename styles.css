@@ -548,7 +548,7 @@ body {
 .file-item[data-tab="about"] .file-icon { color: var(--accent-green); }
 .file-item[data-tab="experience"] .file-icon { color: var(--accent-orange); }
 .file-item[data-tab="skills"] .file-icon { color: var(--accent-yellow); }
-.file-item[data-tab="projects"] .file-icon { color: var(--accent-blue); }
+.file-item[data-tab="projects"] .file-icon { color: var(--accent-purple); }
 .file-item[data-tab="education"] .file-icon { color: var(--accent-green); }
 .file-item[data-tab="contact"] .file-icon { color: var(--accent-orange); }
 
@@ -950,8 +950,8 @@ section li::before {
 
 .project-card:hover {
     transform: translateY(-8px) scale(1.02);
-    border-color: var(--accent-blue);
-    box-shadow: 0 16px 40px rgba(0, 122, 204, 0.2);
+    border-color: var(--accent-purple);
+    box-shadow: 0 16px 40px rgba(139, 69, 255, 0.2);
 }
 
 .project-card::before {
@@ -997,11 +997,11 @@ section li::before {
 
 .tech-tag {
     background-color: var(--bg-tertiary);
-    color: var(--accent-blue);
+    color: var(--accent-purple);
     padding: 4px 8px;
     border-radius: 12px;
     font-size: 11px;
-    border: 1px solid var(--accent-blue);
+    border: 1px solid var(--accent-purple);
 }
 
 /* Education Timeline */
@@ -1353,8 +1353,8 @@ section li::before {
     }
 
     .tab-content {
-        padding: 16px 16px 50px 16px;
-        margin: 8px;
+        padding: 16px 16px 100px 16px;
+        margin: 8px 8px 0 8px;
         max-width: calc(100% - 16px);
         width: calc(100% - 16px);
     }
@@ -1440,8 +1440,8 @@ section li::before {
     }
 
     .tab-content {
-        padding: 12px 12px 60px 12px;
-        margin: 6px;
+        padding: 12px 12px 120px 12px;
+        margin: 6px 6px 0 6px;
     }
 
     .project-card,
@@ -1452,6 +1452,17 @@ section li::before {
     .languages-section {
         padding: 12px;
         margin-bottom: 8px;
+    }
+
+    /* Extra margin for last elements on smallest screens */
+    .project-card:last-child,
+    .contact-card:last-child,
+    .skill-category:last-child,
+    .role-card:last-child,
+    .availability-section:last-child,
+    .languages-section:last-child,
+    section:last-child {
+        margin-bottom: 50px;
     }
 
     .explorer-header {
@@ -1694,9 +1705,9 @@ section li::before {
     .tab-content {
         scroll-snap-align: start;
         overflow-y: auto;
-        max-height: calc(100vh - 80px - env(safe-area-inset-bottom));
+        max-height: calc(100vh - 60px - env(safe-area-inset-bottom));
         scroll-padding: 20px;
-        padding-bottom: max(40px, env(safe-area-inset-bottom));
+        padding-bottom: max(100px, env(safe-area-inset-bottom) + 80px);
         overscroll-behavior: contain;
     }
 
@@ -1753,8 +1764,19 @@ section li::before {
 
     /* Enhanced mobile spacing and padding */
     section {
-        margin-bottom: 16px;
+        margin-bottom: 24px;
         padding: 8px 4px;
+    }
+
+    /* Extra margin for last sections and elements */
+    section:last-child,
+    .project-card:last-child,
+    .contact-card:last-child,
+    .skill-category:last-child,
+    .role-card:last-child,
+    .availability-section:last-child,
+    .languages-section:last-child {
+        margin-bottom: 40px;
     }
 
     .profile-section {
