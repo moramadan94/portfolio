@@ -119,6 +119,9 @@ class PortfolioManager {
         // Contact buttons functionality
         this.setupContactButtons();
 
+        // Theme toggle functionality
+        this.setupThemeToggle();
+
         // Mobile responsive behavior
         this.setupMobileNavigation();
     }
@@ -259,6 +262,56 @@ class PortfolioManager {
             }
         } catch (error) {
             this.showNotification('Failed to open link', 'error');
+        }
+    }
+
+    setupThemeToggle() {
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        if (!themeToggle || !themeIcon) return;
+
+        // Load saved theme or default to dark
+        const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
+        this.setTheme(savedTheme);
+
+        // Theme toggle click handler
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            // Add switching animation
+            themeToggle.classList.add('switching');
+
+            // Change theme after animation starts
+            setTimeout(() => {
+                this.setTheme(newTheme);
+                localStorage.setItem('portfolio-theme', newTheme);
+                this.showNotification(`Switched to ${newTheme} theme`, 'success');
+            }, 150);
+
+            // Remove animation class
+            setTimeout(() => {
+                themeToggle.classList.remove('switching');
+            }, 600);
+        });
+    }
+
+    setTheme(theme) {
+        const themeIcon = document.getElementById('themeIcon');
+
+        if (theme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            if (themeIcon) {
+                themeIcon.className = 'fas fa-moon';
+                themeIcon.title = 'Switch to Dark Mode';
+            }
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            if (themeIcon) {
+                themeIcon.className = 'fas fa-lightbulb';
+                themeIcon.title = 'Switch to Light Mode';
+            }
         }
     }
 
